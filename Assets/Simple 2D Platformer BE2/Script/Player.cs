@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI textHealth, textSpeed, textStrength;
+    [SerializeField] private TextMeshProUGUI textHealth, textSpeed, textSpeedDuration, textStrength;
+    [SerializeField] private Slider sliderSpeedDuration;
     
     private int health = 10;
     private float strength = 10f;
@@ -49,8 +51,8 @@ public class Player : MonoBehaviour
 
     public void PowerUp(int newHealth)
     {
+        Debug.Log($"<color=#80FF88>+Buff {health} +{newHealth} Health</color>");
         health += newHealth;
-        Debug.Log($"<color=#80FF88>+Buff {health} Health</color>");
         UpdateTextHealth();
     }
 
@@ -73,6 +75,9 @@ public class Player : MonoBehaviour
 
         Debug.Log($"<color=#DDFF80>+Buff {speed} Speed for {duration.ToString("0#.00")} seconds</color>");
         UpdateTextSpeed();
+
+
+        sliderSpeedDuration.maxValue = speedBoostDuration;
     }
 
     public void UpdateSpeedBoostTimer()
@@ -82,7 +87,10 @@ public class Player : MonoBehaviour
         if (speedBoostTimer > 0)
         {
             speedBoostTimer -= Time.deltaTime;
-            Debug.Log($"Speed boost {speedBoostTimer.ToString("0#.00")} sec left");
+            
+            Debug.Log("Speed boost Active!!");
+            UpdateTextSpeed();
+            //Debug.Log($"Speed boost {speedBoostTimer.ToString("0#.00")} sec left");
         }
         else
         {
@@ -95,6 +103,13 @@ public class Player : MonoBehaviour
     }
 
     private void UpdateTextHealth() => textHealth.text = health.ToString();
-    private void UpdateTextSpeed() => textSpeed.text = speed.ToString();
     private void UpdateTextStrength() => textStrength.text = strength.ToString();
+
+    private void UpdateTextSpeed()
+    {
+        textSpeed.text = speed.ToString();
+        textSpeedDuration.text = $"{speedBoostTimer.ToString("0#.00")} sec";
+        sliderSpeedDuration.value = speedBoostTimer;
+    }
+
 }
