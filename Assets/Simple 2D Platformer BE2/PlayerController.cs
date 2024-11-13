@@ -10,11 +10,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] float jumpSpeed;
 
-    private Animator anim;
+    [SerializeField] private Animator anim;
 
     void Start()
     {
-        speed = 500f;
+        speed = 200f;
         jumpSpeed = 15f;
 
         anim = GetComponent<Animator>();
@@ -30,8 +30,8 @@ public class PlayerController : MonoBehaviour
             rb2d.velocity = new Vector2(0, jumpSpeed);
         }
 
-        if (rb2d.velocity.x != 0) anim.speed = 0;
-        else anim.speed = 1;
+        if (rb2d.velocity.x != 0) anim.speed = 1;
+        else anim.speed = 0;
     }
 
     private void FixedUpdate()
